@@ -31,5 +31,6 @@ http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/fil
 	"mulesoft.txt": payload
 }]]]></email:attachments>
 		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="fa8501c4-d0f7-4e84-9138-8da940594e6a" message="#[payload]"/>
 	</flow>
 </mule>
