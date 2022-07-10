@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:file="http://www.mulesoft.org/schema/mule/file" xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="d1e8a372-fc1e-4674-bd20-87e2c0f89140" >
+		<http:listener-connection host="localhost" port="8081" />
+	</http:listener-config>
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="ee973722-b799-4bac-99ef-d0ff723cc0eb" >
+		<email:smtp-connection host="smtp.gmail.com" user="lallushankar13579@gmail.com" password="Shravan@143" port="587">
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="emailFlow" doc:id="556f9f67-0c0d-4b57-84e4-83fbc54e4a41" >
+		<http:listener doc:name="Listener" doc:id="92aa34ba-6938-4fb5-9d7e-0a840b1d9c80" config-ref="HTTP_Listener_config" path="/smtp"/>
+		<file:read doc:name="Read" doc:id="d74bb606-fce2-44df-9e40-56eced873ebe" path="C:\Users\lallu\Desktop\mulesoft interview questions.txt"/>
+		<email:send doc:name="Send" doc:id="db03d008-d50a-4624-a467-e1f77ae8f409" config-ref="Email_SMTP" fromAddress="lallushankar13579@gmail.com" subject="Testing mail">
+			<email:to-addresses >
+				<email:to-address value="shravanpaka9@gmail.com" />
+				<email:to-address value="lallushankar13579@gmail.com" />
+			</email:to-addresses>
+			<email:body >
+				<email:content ><![CDATA[Hi welcome to mulesoft]]></email:content>
+			</email:body>
+			<email:attachments ><![CDATA[#[{
+	"mulesoft.txt": payload
+}]]]></email:attachments>
+		</email:send>
+	</flow>
+</mule>
